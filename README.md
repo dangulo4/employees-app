@@ -1,20 +1,52 @@
-## React Module 1 Assignment
+### React Assignment Module 4
 
-### In your first assignment, you will get React to run within a Node web server running Express. To complete this assignment, step through the following tasks:
+1. Now that you know what webpack is capable of, let's organize your files into one file per class: EmployeeList, EmployeeAdd (already done), and EmployeeFilter. Let the stateless components EmployeeTable and EmployeeRow remain with EmployeeList in the same file. The entry file, employees.jsx, will only import the other classes and mount the main component. This will create a two-level hierarchy of imports: employees.jsx will import EmployeeList.jsx, which in turn will import EmployeeAdd.jsx and EmployeeFilter.jsx.
 
-1. You don't need to create a new folder for this assignment. Just continue using the 'module01' folder that you used throughout the first module. Your first task will be to install Express.
-2. Then, install 'nodemon' as a dev dependency.
-3. Then, create a new file at the root of the module folder called 'app.js'.
-4. Within app.js, add the necessary code to:
+To start with, move the placeholder component EmployeeFilter to its own file (/src/EmployeeFilter.jsx):
 
-- import express make sure to add the 'type': 'module' property and value set within the package.json file.
-- create the express app
-- set the 'public' folder as a static folder
-- get the '/' route and have it load 'index.html' from the public folder
-- have the app listen on port 5000
+```
+EmployeeFilter.jsx
+export default class EmployeeFilter extends React.Component {
+    render() {
+        return (
+            <div>This is a placeholder for the Issue Filter.</div>
+        )
+    }
+}
+```
 
-5. Now, move the index.html file into the 'public' folder. You should have two files in this folder now: the index.html file and the employees.js file which is automatically created by Babel from the employees.jsx file.
-6. Finally, add a new 'start' script within the package.json file that starts app.js with nodemon.
+2. Similarly, extract the three classes (EmployeeRow, EmployeeTable, and EmployeeList) from employees.jsx. The new file created should be called EmployeeList.jsx. Since this file needs the other extracted classes, EmployeeAdd and EmployeeFilter, you also need import statements for them in addition to the classes that are moved into this file. Only the class EmployeeList is exported, so you need to add the keywords 'export default' only to that class declaration. The other two classes are for internal use only, so they are not exported.
 
-In order to test your application you will need two Terminal windows. One to 'watch' the Babel process and the other to start the web server using nodemon. Open your browser and browse to localhost:5000. Make sure your page loads and the list of employees displays. Now, go into your employees.jsx file, add a new employee to the list, and save your work. Assuming you don't receive any errors, go back to your browser and click refresh. Did the new employee appear? If yes, congratulations, you've completed the first assignment!
-"# employees-app" 
+EmployeeList.jsx: Move Classes EmployeeList, EmployeeTable, and EmployeeRow Here, and Add Import and Export Statements
+
+```
+import EmployeeFilter from './EmployeeFilter.jsx'
+import EmployeeAdd from './EmployeeAdd.jsx'
+
+function EmployeeRow(props) (
+    ...
+)
+
+function EmployeeTable(props) {
+    ...
+}
+
+export default class EmployeeList extends React.Component {
+    ...
+}
+```
+
+Now that most of the contents of employees.jsx have been moved out to their individual files, you're left with just the rendering of the component:
+
+employees.jsx: Complete Contents After Moving All Classes Out
+import EmployeeList from './EmployeeList.jsx'
+
+```
+ReactDOM.render(
+    <React.StrictMode>
+        <EmployeeList />
+    </React.StrictMode>,
+    document.getElementById('content'))
+```
+
+3. Save your work and make sure that all files are compiled into employees.bundle.js and that the app still works as it should.
